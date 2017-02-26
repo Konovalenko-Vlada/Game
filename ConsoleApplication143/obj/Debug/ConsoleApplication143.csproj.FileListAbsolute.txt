@@ -1,0 +1,3 @@
+C:\Users\student\Documents\Visual Studio 2013\Projects\ConsoleApplication143\ConsoleApplication143\bin\Debug\ConsoleApplication143.exe.config
+G:\програм\ConsoleApplication143\ConsoleApplication143\bin\Debug\ConsoleApplication143.exe.config
+G:\програм\Game\ConsoleApplication143\bin\Debug\ConsoleApplication143.exe.config
