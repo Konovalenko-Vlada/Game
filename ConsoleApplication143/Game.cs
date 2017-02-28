@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace ConsoleApplication143
 {
     class Game
-    {
-        
+    {        
         List<Coordinate> coords = new List<Coordinate>();
-
+        int[,] val;
+        int c = 0;
+        //константное время поиска за счет 2 массива
+        //переменная "ноль"
+        //прочитать .csv
         public Game(params int[] data)
         {
             if (Math.Sqrt(data.Length) % 1 != 0)
@@ -26,6 +30,8 @@ namespace ConsoleApplication143
                     temp_Coordinate.x = i++;
                     temp_Coordinate.y = j++;
                     coords[data[i + j]] = temp_Coordinate;
+
+                    val[i, j] = c++;
                 }
             }
         }
@@ -34,51 +40,41 @@ namespace ConsoleApplication143
         {
             get
             {
-                return coords.FindIndex(Coordinate => (Coordinate.x == x) && (Coordinate.y == y));
+                return val[x, y];
             }
         }
 
-        public Coordinate getLocation(int value)
+        public Coordinate GetLocation(int value)
         {
             return coords[value];
         }
 
         void Shift(int value)
         {
-            var current_Coordinate = getLocation(value);
+            Coordinate zero = GetLocation(0);
+            Coordinate val = GetLocation(value);
 
-            if (this[current_Coordinate.x + 1, current_Coordinate.y] == 0)
+            if (Math.Abs(zero.x - val.x) == 1 || Math.Abs(zero.y - val.y) == 1)
             {
-                coords[0] = current_Coordinate;
-
-                current_Coordinate.x++;
-                coords[value] = current_Coordinate;
-            } 
-            else if (this[current_Coordinate.x - 1, current_Coordinate.y] == 0)
-            {
-                coords[0] = current_Coordinate;
-
-                current_Coordinate.x--;
-                coords[value] = current_Coordinate;
-            }
-            else if (this[current_Coordinate.x, current_Coordinate.y + 1] == 0)
-            {
-                coords[0] = current_Coordinate;
-
-                current_Coordinate.y++;
-                coords[value] = current_Coordinate;
-            }
-            else if (this[current_Coordinate.x, current_Coordinate.y - 1] == 0)
-            {
-                coords[0] = current_Coordinate;
-
-                current_Coordinate.y--;
-                coords[value] = current_Coordinate;
+                Coordinate prom = zero;
+                zero = val;
+                val = prom;
             }
             else
             {
                 throw new ArgumentException("Error no empty space!!!");
             }
+        }
+
+        public static Game FromCSV(string file)
+        {
+            int int_data = 0;
+            foreach (string line in File.ReadAllLines(file)) 
+            {
+                string[] splitedLine = line.Split(';');
+                int_data = Convert.ToInt32(splitedLine); 
+            }
+            return new Game(int_data);
         }
     }
 }
