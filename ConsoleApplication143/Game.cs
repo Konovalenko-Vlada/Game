@@ -12,9 +12,7 @@ namespace ConsoleApplication143
         List<Coordinate> coords = new List<Coordinate>();
         int[,] val;
         int c = 0;
-        //константное время поиска за счет 2 массива
-        //переменная "ноль"
-        //прочитать .csv
+
         public Game(params int[] data)
         {
             if (Math.Sqrt(data.Length) % 1 != 0)
@@ -30,6 +28,27 @@ namespace ConsoleApplication143
                     temp_Coordinate.x = i++;
                     temp_Coordinate.y = j++;
                     coords[data[i + j]] = temp_Coordinate;
+
+                    val[i, j] = c++;
+                }
+            }
+        }
+
+        public Game(params string[] data)
+        {
+            if (Math.Sqrt(data.Length) % 1 != 0)
+            {
+                throw new ArgumentException("Error Size!!!");
+            }
+
+            for (int i = 0; i < Math.Sqrt(data.Length); i++)
+            {
+                for (int j = 0; j < Math.Sqrt(data.Length); j++)
+                {
+                    Coordinate temp_Coordinate = new Coordinate();
+                    temp_Coordinate.x = i++;
+                    temp_Coordinate.y = j++;
+                    coords[Convert.ToInt32(data[i + j])] = temp_Coordinate;
 
                     val[i, j] = c++;
                 }
@@ -68,13 +87,8 @@ namespace ConsoleApplication143
 
         public static Game FromCSV(string file)
         {
-            int int_data = 0;
-            foreach (string line in File.ReadAllLines(file)) 
-            {
-                string[] splitedLine = line.Split(';');
-                int_data = Convert.ToInt32(splitedLine); 
-            }
-            return new Game(int_data);
+            string[] data = File.ReadAllText(file).Split(';');
+            return new Game(data);
         }
     }
 }
