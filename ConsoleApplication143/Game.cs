@@ -25,8 +25,8 @@ namespace ConsoleApplication143
                 for (int j = 0; j < Math.Sqrt(data.Length); j++)
                 {
                     Coordinate temp_Coordinate = new Coordinate();
-                    temp_Coordinate.x = i++;
-                    temp_Coordinate.y = j++;
+                    temp_Coordinate.x = i + 1;
+                    temp_Coordinate.y = j + 1;
                     coords[data[i + j]] = temp_Coordinate;
 
                     val[i, j] = c++;
